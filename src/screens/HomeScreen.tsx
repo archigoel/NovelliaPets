@@ -9,6 +9,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { PetDetailsRouteProp, NavigationProp, AddPetRouteProp } from "../types";
 
 export const HomeScreen = () => {
+
     const route = useRoute<AddPetRouteProp>();
     const navigation = useNavigation<NavigationProp>();
     const userName = useAuthStore((s) => s.userName);
@@ -28,14 +29,14 @@ export const HomeScreen = () => {
         }
     }, [fetchPets]);
 
+    const showInitialLoader = isLoading && pets.length === 0 && !refreshing;
+
     useEffect(() => {
         if (userName) {
             fetchPets(userName);
         }
 
     }, [fetchPets]);
-
-    const showInitialLoader = isLoading && pets.length === 0 && !refreshing;
 
     return (
         <View style={{ flex: 1, padding: 20, alignItems: 'center', justifyContent: 'center' }}>

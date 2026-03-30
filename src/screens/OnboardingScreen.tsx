@@ -19,7 +19,6 @@ export const OnboardingScreen = () => {
   const handleContinue = async () => {
     if (name.trim().length < 2) return;
 
-
     try {
       setUserName(name);
     } catch (e) {

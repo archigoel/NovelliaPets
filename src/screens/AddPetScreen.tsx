@@ -11,7 +11,10 @@ export const AddPetScreen = () => {
 
     const route = useRoute<AddPetRouteProp>();
     const navigation = useNavigation<NavigationProp>();
-    const { addPet, deletePet, updatePet } = usePetStore();
+    //const { addPet, deletePet, updatePet } = usePetStore();
+    const addPet = usePetStore((s) => s.addPet);
+    const deletePet = usePetStore((s) => s.deletePet);
+    const updatePet = usePetStore((s) => s.updatePet);
     const petId = route?.params?.petId
     const userName = useAuthStore((s) => s.userName)
     //const action = route?.params?.action
@@ -29,9 +32,8 @@ export const AddPetScreen = () => {
     }, [navigation, petId]);
 
 
-    // Always call the hook at the top level
     const selectedPet = usePetStore((state) =>
-        petId ? state.getPetById(petId) : null
+        petId ? state.pets.find(p => String(p.id) === String(petId)) : null
     );
     const [form, setForm] = useState({
         name: selectedPet?.name || "",

@@ -6,17 +6,18 @@ import { PetDetailsRouteProp, NavigationProp, MedicalRecord } from '../types';
 import { useLayoutEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 const { width } = Dimensions.get('window');
+
 export const PetDetailsScreen = () => {
     const route = useRoute<PetDetailsRouteProp>();
     const navigation = useNavigation<NavigationProp>();
     const { petId } = route.params
+
+    const deleteMedicalRecord = usePetStore((s) => s.deleteMedicalRecord)
     // re-render me if the pet with this ID changes"
     const pet = usePetStore((state) =>
         state.pets.find((p) => String(p.id) === String(petId))
     );
-    const deleteMedicalRecord = usePetStore((s) => s.deleteMedicalRecord)
 
-    if (!pet) return <Text>Pet not found</Text>;
     useLayoutEffect(() => {
         if (petId) {
             navigation.setOptions({
@@ -29,6 +30,9 @@ export const PetDetailsScreen = () => {
             });
         }
     }, [navigation, petId]);
+
+    if (!pet) return <Text>Pet not found</Text>;
+
 
     //  Helper to get Icon/Color based on type
     const getRecordStyle = (type: string) => {
